@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Admin Dashboard – Putt & Play Mini Golf & Family Fun Center." />
+    <title>Admin Dashboard | Putt & Play</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap" rel="stylesheet" />
+    <style>
+        /* ----- RESET & VARIABLES (Black / White / Orange) ----- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F8F8;
+            --text-main: #111111;
+            --text-heading: #000000;
+            --card-bg: #FFFFFF;
+            --border-light: #E5E5E5;
+            --accent-orange: #FF7626;
+            --accent-dark: #000000;
+            --sidebar-bg: #000000;
+            --sidebar-text: #E0E0E0;
+            --sidebar-hover: #1F1F1F;
+            --orange: #FF7626;
+            --black: #000000;
+            --white: #FFFFFF;
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0A0A0A;
+            --bg-secondary: #1A1A1A;
+            --text-main: #EAEAEA;
+            --text-heading: #FAFAFA;
+            --card-bg: #1F1F1F;
+            --border-light: #333333;
+            --accent-orange: #FF8C42;
+            --accent-dark: #000000;
+            --sidebar-bg: #000000;
+            --sidebar-text: #E0E0E0;
+            --sidebar-hover: #1F1F1F;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.5;
+        }
+        h1, h2, h3, h4, h5, h6 { color: var(--text-heading); font-weight: 700; line-height: 1.2; }
+        a { text-decoration: none; }
+
+        /* ----- SIDEBAR (Fixed) ----- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            border-right: 1px solid #222;
+        }
+        [dir="rtl"] .sidebar {
+            left: auto;
+            right: 0;
+            border-right: none;
+            border-left: 1px solid #222;
+        }
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #222;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .sidebar-brand:hover { opacity: 0.85; }
+        .sidebar-brand-icon {
+            width: 2.4rem;
+            height: 2.4rem;
+            background: rgba(255,118,38,0.15);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--orange);
+            flex-shrink: 0;
+        }
+        .sidebar-brand-icon i {
+            color: var(--orange);
+            font-size: 1.25rem;
+        }
+        .sidebar-brand-text {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: white;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+        .sidebar-brand-text span { color: var(--orange); }
+        .sidebar-brand-tagline {
+            font-size: 0.5rem;
+            color: #888;
+            display: block;
+            margin-top: 0.1rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar-nav {
+            flex: 1;
+            padding: 0.75rem 0.75rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        .sidebar-nav::-webkit-scrollbar { width: 4px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 0.85rem;
+            border-radius: 0.65rem;
+            color: var(--sidebar-text);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+            position: relative;
+        }
+        [dir="rtl"] .sidebar-item { text-align: right; }
+        .sidebar-item i {
+            color: #888;
+            font-size: 0.95rem;
+            width: 1.25rem;
+            text-align: center;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .sidebar-item:hover {
+            background: var(--sidebar-hover);
+            color: white;
+        }
+        .sidebar-item:hover i { color: var(--orange); }
+        .sidebar-item.active {
+            background: var(--orange);
+            color: white;
+            font-weight: 600;
+        }
+        .sidebar-item.active i { color: white; }
+        .sidebar-item .badge {
+            margin-left: auto;
+            background: rgba(255,255,255,0.15);
+            color: #ccc;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.1rem 0.45rem;
+            border-radius: 9999px;
+        }
+        [dir="rtl"] .sidebar-item .badge { margin-left: 0; margin-right: auto; }
+        .sidebar-item.active .badge {
+            background: rgba(0,0,0,0.2);
+            color: white;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: #222;
+            margin: 0.5rem 0.85rem;
+        }
+        .sidebar-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #555;
+            padding: 0.5rem 0.85rem 0.25rem;
+        }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            padding: 0.85rem;
+            border-top: 1px solid #222;
+            flex-shrink: 0;
+        }
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 0.75rem;
+            border-radius: 0.65rem;
+            background: #1A1A1A;
+            transition: 0.2s;
+        }
+        .sidebar-user:hover { background: #222; }
+        .sidebar-avatar {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: var(--orange);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .sidebar-user-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .sidebar-user-info h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-user-info p {
+            font-size: 0.65rem;
+            color: #888;
+        }
+        .sidebar-logout {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0.25rem;
+            transition: 0.2s;
+        }
+        .sidebar-logout:hover { color: var(--orange); }
+
+        /* Mobile toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1100;
+            width: 2.6rem;
+            height: 2.6rem;
+            border-radius: 0.65rem;
+            background: var(--sidebar-bg);
+            color: white;
+            border: 1px solid #333;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+        [dir="rtl"] .sidebar-toggle {
+            left: auto;
+            right: 1rem;
+        }
+        .sidebar-toggle:hover { background: var(--orange); border-color: var(--orange); }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        /* ----- MAIN CONTENT ----- */
+        .main-content {
+            margin-left: 260px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: margin 0.3s ease;
+        }
+        [dir="rtl"] .main-content { margin-left: 0; margin-right: 260px; }
+
+        /* Top bar */
+        .topbar {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-light);
+            padding: 0.85rem 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .topbar-left h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .topbar-left p {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-top: 0.1rem;
+        }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .topbar-icon {
+            width: 2.3rem;
+            height: 2.3rem;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+            position: relative;
+        }
+        .topbar-icon:hover {
+            background: var(--orange);
+            color: white;
+            border-color: var(--orange);
+        }
+        .topbar-icon .notif-dot {
+            position: absolute;
+            top: 0.4rem;
+            right: 0.45rem;
+            width: 0.4rem;
+            height: 0.4rem;
+            background: var(--orange);
+            border-radius: 50%;
+            border: 1.5px solid var(--card-bg);
+        }
+        .topbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.6rem 0.25rem 0.25rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-light);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .topbar-user:hover { border-color: var(--orange); }
+        .topbar-user-avatar {
+            width: 1.9rem;
+            height: 1.9rem;
+            border-radius: 50%;
+            background: var(--orange);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .topbar-user span {
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        /* Content area */
+        .content-area {
+            padding: 1.5rem 1.75rem;
+            flex: 1;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+        .content-section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stats cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: 0.25s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .stat-card:hover {
+            border-color: var(--orange);
+            box-shadow: 0 10px 25px rgba(255,118,38,0.08);
+            transform: translateY(-3px);
+        }
+        .stat-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .stat-icon {
+            width: 2.6rem;
+            height: 2.6rem;
+            border-radius: 0.75rem;
+            background: rgba(255,118,38,0.1);
+            color: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        .stat-change {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+        }
+        .stat-change.up { background: rgba(34,197,94,0.12); color: #16a34a; }
+        .stat-change.down { background: rgba(239,68,68,0.12); color: #dc2626; }
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 0.78rem;
+            opacity: 0.6;
+        }
+
+        /* Table card */
+        .table-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        .table-header {
+            padding: 1.1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            flex-wrap: wrap;
+        }
+        .table-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .table-header .btn-sm {
+            background: var(--orange);
+            color: white;
+            padding: 0.45rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .table-header .btn-sm:hover { background: var(--black); }
+        .table-wrap { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        th, td {
+            padding: 0.8rem 1.25rem;
+            text-align: left;
+            font-size: 0.82rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+        [dir="rtl"] th, [dir="rtl"] td { text-align: right; }
+        th {
+            background: var(--bg-secondary);
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.7;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,118,38,0.03); }
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.68rem;
+            font-weight: 700;
+        }
+        .status-badge.confirmed { background: rgba(34,197,94,0.12); color: #16a34a; }
+        .status-badge.pending { background: rgba(234,179,8,0.12); color: #ca8a04; }
+        .status-badge.cancelled { background: rgba(239,68,68,0.12); color: #dc2626; }
+        .status-badge.active { background: rgba(34,197,94,0.12); color: #16a34a; }
+        .status-badge.completed { background: rgba(59,130,246,0.12); color: #2563eb; }
+
+        /* Placeholder content for other sections */
+        .placeholder-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .placeholder-card i {
+            font-size: 3rem;
+            color: var(--orange);
+            opacity: 0.4;
+            margin-bottom: 1rem;
+        }
+        .placeholder-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+        .placeholder-card p {
+            font-size: 0.875rem;
+            opacity: 0.6;
+            max-width: 28rem;
+            margin: 0 auto;
+        }
+
+        /* Simple form for settings */
+        .settings-form {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            max-width: 600px;
+        }
+        .settings-form .form-group {
+            margin-bottom: 1rem;
+        }
+        .settings-form label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+        .settings-form input,
+        .settings-form select {
+            width: 100%;
+            padding: 0.6rem 0.85rem;
+            border: 1.5px solid var(--border-light);
+            border-radius: 0.7rem;
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+        .settings-form input:focus,
+        .settings-form select:focus {
+            outline: none;
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(255,118,38,0.1);
+        }
+        .settings-form .btn-save {
+            background: var(--orange);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+        .settings-form .btn-save:hover { background: var(--black); }
+
+        /* Grid for cards in bookings/members */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1200px) { .card-grid { grid-template-columns: repeat(3, 1fr); } }
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            transition: 0.25s;
+        }
+        .info-card:hover { border-color: var(--orange); box-shadow: 0 10px 25px rgba(255,118,38,0.08); }
+        .info-card h4 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+        .info-card p { font-size: 0.8rem; opacity: 0.7; line-height: 1.5; }
+        .info-card .info-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1023px) {
+            .sidebar { transform: translateX(-100%); }
+            [dir="rtl"] .sidebar { transform: translateX(100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            [dir="rtl"] .main-content { margin-right: 0; }
+            .sidebar-toggle { display: flex; }
+            .sidebar-overlay.active { display: block; }
+            .topbar { padding-left: 4rem; }
+            [dir="rtl"] .topbar { padding-left: 1.75rem; padding-right: 4rem; }
+        }
+        @media (max-width: 640px) {
+            .content-area { padding: 1rem; }
+            .topbar { padding: 0.75rem 1rem 0.75rem 3.75rem; }
+            [dir="rtl"] .topbar { padding: 0.75rem 3.75rem 0.75rem 1rem; }
+            .topbar-left h1 { font-size: 1rem; }
+            .topbar-user span { display: none; }
+            .topbar-user { padding: 0.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Mobile sidebar toggle -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+    <i class="fas fa-bars"></i>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <!-- Brand -->
+    <a href="index.html" class="sidebar-brand">
+        <div class="sidebar-brand-icon"><i class="fas fa-golf-ball-tee"></i></div>
+        <div>
+            <div class="sidebar-brand-text">Putt<span>&Play</span></div>
+            <span class="sidebar-brand-tagline">admin panel</span>
+        </div>
+    </a>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+        <div class="sidebar-label">Main</div>
+        <button class="sidebar-item active" data-section="dashboard">
+            <i class="fas fa-th-large"></i> Dashboard
+        </button>
+        <button class="sidebar-item" data-section="bookings">
+            <i class="fas fa-calendar-check"></i> Bookings
+            <span class="badge">12</span>
+        </button>
+        <button class="sidebar-item" data-section="members">
+            <i class="fas fa-users"></i> Members
+        </button>
+        <button class="sidebar-item" data-section="transactions">
+            <i class="fas fa-credit-card"></i> Transactions
+        </button>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Manage</div>
+        <button class="sidebar-item" data-section="products">
+            <i class="fas fa-box"></i> Products & Passes
+        </button>
+        <button class="sidebar-item" data-section="events">
+            <i class="fas fa-champagne-glasses"></i> Events
+        </button>
+        <button class="sidebar-item" data-section="reports">
+            <i class="fas fa-chart-line"></i> Reports
+        </button>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">System</div>
+        <button class="sidebar-item" data-section="settings">
+            <i class="fas fa-cog"></i> Settings
+        </button>
+        <button class="sidebar-item" data-section="support">
+            <i class="fas fa-headset"></i> Support
+        </button>
+    </nav>
+
+    <!-- User footer -->
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <div class="sidebar-avatar">A</div>
+            <div class="sidebar-user-info">
+                <h4>Admin User</h4>
+                <p>Super Admin</p>
+            </div>
+            <button class="sidebar-logout" title="Logout" onclick="window.location.href='login.html'">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+    <!-- Top bar -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <div>
+                <h1 id="pageTitle">Dashboard Overview</h1>
+                <p id="pageSubtitle">Welcome back, Admin — here's what's happening today.</p>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <button class="topbar-icon" title="Toggle theme" id="themeToggle">
+                <i class="fas fa-circle-half-stroke" id="themeIcon"></i>
+            </button>
+            <button class="topbar-icon" title="Toggle RTL" id="rtlToggle">
+                <i class="fas fa-right-left"></i>
+            </button>
+            <button class="topbar-icon" title="Notifications">
+                <i class="fas fa-bell"></i>
+                <span class="notif-dot"></span>
+            </button>
+            <div class="topbar-user">
+                <div class="topbar-user-avatar">A</div>
+                <span>Admin</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content area -->
+    <div class="content-area">
+
+        <!-- DASHBOARD SECTION -->
+        <section class="content-section active" id="section-dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon"><i class="fas fa-ticket"></i></div>
+                        <span class="stat-change up">+12%</span>
+                    </div>
+                    <div class="stat-value">1,284</div>
+                    <div class="stat-label">Total Bookings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <span class="stat-change up">+8%</span>
+                    </div>
+                    <div class="stat-value">3,560</div>
+                    <div class="stat-label">Registered Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <span class="stat-change up">+23%</span>
+                    </div>
+                    <div class="stat-value">$24.8k</div>
+                    <div class="stat-label">Revenue This Month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
+                        <span class="stat-change down">-2%</span>
+                    </div>
+                    <div class="stat-value">4.9</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>Recent Bookings</h2>
+                    <button class="btn-sm" onclick="switchSection('bookings')">View All</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Guest</th>
+                                <th>Package</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sarah Mitchell</td>
+                                <td>Family Bundle</td>
+                                <td>2026-02-14</td>
+                                <td>$39.00</td>
+                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                            </tr>
+                            <tr>
+                                <td>James Thompson</td>
+                                <td>Party Package</td>
+                                <td>2026-02-15</td>
+                                <td>$199.00</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>Emily Rodriguez</td>
+                                <td>Single Pass</td>
+                                <td>2026-02-15</td>
+                                <td>$12.00</td>
+                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Michael Chen</td>
+                                <td>Arcade Card</td>
+                                <td>2026-02-16</td>
+                                <td>$20.00</td>
+                                <td><span class="status-badge cancelled">Cancelled</span></td>
+                            </tr>
+                            <tr>
+                                <td>Lisa Anderson</td>
+                                <td>Family Bundle</td>
+                                <td>2026-02-16</td>
+                                <td>$39.00</td>
+                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOOKINGS SECTION -->
+        <section class="content-section" id="section-bookings">
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>All Bookings</h2>
+                    <button class="btn-sm">+ New Booking</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Guest</th>
+                                <th>Package</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>#BK-1001</td><td>Sarah Mitchell</td><td>Family Bundle</td><td>2026-02-14</td><td>$39.00</td><td><span class="status-badge confirmed">Confirmed</span></td></tr>
+                            <tr><td>#BK-1002</td><td>James Thompson</td><td>Party Package</td><td>2026-02-15</td><td>$199.00</td><td><span class="status-badge pending">Pending</span></td></tr>
+                            <tr><td>#BK-1003</td><td>Emily Rodriguez</td><td>Single Pass</td><td>2026-02-15</td><td>$12.00</td><td><span class="status-badge confirmed">Confirmed</span></td></tr>
+                            <tr><td>#BK-1004</td><td>Michael Chen</td><td>Arcade Card</td><td>2026-02-16</td><td>$20.00</td><td><span class="status-badge cancelled">Cancelled</span></td></tr>
+                            <tr><td>#BK-1005</td><td>Lisa Anderson</td><td>Family Bundle</td><td>2026-02-16</td><td>$39.00</td><td><span class="status-badge confirmed">Confirmed</span></td></tr>
+                            <tr><td>#BK-1006</td><td>David Kim</td><td>Golf Lesson</td><td>2026-02-17</td><td>$30.00</td><td><span class="status-badge completed">Completed</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- MEMBERS SECTION -->
+        <section class="content-section" id="section-members">
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>Registered Members</h2>
+                    <button class="btn-sm">+ Add Member</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Member</th>
+                                <th>Email</th>
+                                <th>Joined</th>
+                                <th>Visits</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Sarah Mitchell</td><td>sarah@example.com</td><td>2025-11-02</td><td>14</td><td><span class="status-badge active">Active</span></td></tr>
+                            <tr><td>James Thompson</td><td>james@example.com</td><td>2025-12-15</td><td>9</td><td><span class="status-badge active">Active</span></td></tr>
+                            <tr><td>Emily Rodriguez</td><td>emily@example.com</td><td>2026-01-08</td><td>6</td><td><span class="status-badge active">Active</span></td></tr>
+                            <tr><td>Michael Chen</td><td>michael@example.com</td><td>2026-01-20</td><td>3</td><td><span class="status-badge pending">Inactive</span></td></tr>
+                            <tr><td>Lisa Anderson</td><td>lisa@example.com</td><td>2026-02-01</td><td>2</td><td><span class="status-badge active">Active</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSACTIONS SECTION -->
+        <section class="content-section" id="section-transactions">
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>Recent Transactions</h2>
+                    <button class="btn-sm">Export CSV</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Member</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>#TX-4501</td><td>Sarah Mitchell</td><td>Card</td><td>$39.00</td><td>2026-02-14</td><td><span class="status-badge completed">Completed</span></td></tr>
+                            <tr><td>#TX-4502</td><td>James Thompson</td><td>Card</td><td>$199.00</td><td>2026-02-15</td><td><span class="status-badge pending">Pending</span></td></tr>
+                            <tr><td>#TX-4503</td><td>Emily Rodriguez</td><td>Cash</td><td>$12.00</td><td>2026-02-15</td><td><span class="status-badge completed">Completed</span></td></tr>
+                            <tr><td>#TX-4504</td><td>Michael Chen</td><td>Card</td><td>$20.00</td><td>2026-02-16</td><td><span class="status-badge cancelled">Refunded</span></td></tr>
+                            <tr><td>#TX-4505</td><td>Lisa Anderson</td><td>Card</td><td>$39.00</td><td>2026-02-16</td><td><span class="status-badge completed">Completed</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS SECTION -->
+        <section class="content-section" id="section-products">
+            <div class="card-grid">
+                <div class="info-card">
+                    <h4>Single Round Pass</h4>
+                    <p>One round of 18-hole mini golf for one player. Club and ball included.</p>
+                    <div class="info-meta"><i class="fas fa-tag"></i> $12 / person</div>
+                </div>
+                <div class="info-card">
+                    <h4>Family Fun Pass</h4>
+                    <p>4 mini golf passes, $10 arcade credit, and snacks & drinks for the whole family.</p>
+                    <div class="info-meta"><i class="fas fa-tag"></i> $39 / family</div>
+                </div>
+                <div class="info-card">
+                    <h4>Arcade Play Card</h4>
+                    <p>Load $20 onto a play card and get $25 in game credits. Over 50 games to choose from.</p>
+                    <div class="info-meta"><i class="fas fa-tag"></i> $20 / card</div>
+                </div>
+                <div class="info-card">
+                    <h4>Birthday Party Package</h4>
+                    <p>10 mini golf passes, private party room, pizza, drinks, and cake for 2 hours of fun.</p>
+                    <div class="info-meta"><i class="fas fa-tag"></i> $199 / party</div>
+                </div>
+                <div class="info-card">
+                    <h4>Private Golf Lesson</h4>
+                    <p>30-minute one-on-one putting clinic with a PGA-trained instructor. All skill levels welcome.</p>
+                    <div class="info-meta"><i class="fas fa-tag"></i> $30 / person</div>
+                </div>
+                <div class="info-card">
+                    <h4>Group Event Package</h4>
+                    <p>Custom packages for schools, corporate teams, and large groups. 10+ guests, 15% off.</p>
+                    <div class="info-meta"><i class="fas fa-tag"></i> Custom quote</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVENTS SECTION -->
+        <section class="content-section" id="section-events">
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>Upcoming Events</h2>
+                    <button class="btn-sm">+ Create Event</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Spots Left</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Family Fun Day</td><td>2026-03-01</td><td>10:00 AM</td><td>24 / 50</td><td><span class="status-badge active">Open</span></td></tr>
+                            <tr><td>Teen Arcade Night</td><td>2026-03-07</td><td>6:00 PM</td><td>12 / 40</td><td><span class="status-badge active">Open</span></td></tr>
+                            <tr><td>Mini Golf Tournament</td><td>2026-03-15</td><td>9:00 AM</td><td>8 / 32</td><td><span class="status-badge pending">Filling Fast</span></td></tr>
+                            <tr><td>Easter Egg Hunt</td><td>2026-03-28</td><td>11:00 AM</td><td>60 / 100</td><td><span class="status-badge active">Open</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- REPORTS SECTION -->
+        <section class="content-section" id="section-reports">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
+                    </div>
+                    <div class="stat-value">$24.8k</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                    </div>
+                    <div class="stat-value">342</div>
+                    <div class="stat-label">Bookings This Month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon"><i class="fas fa-user-plus"></i></div>
+                    </div>
+                    <div class="stat-value">86</div>
+                    <div class="stat-label">New Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    </div>
+                    <div class="stat-value">4.9</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+            </div>
+            <div class="placeholder-card" style="margin-top:1.5rem;">
+                <i class="fas fa-chart-pie"></i>
+                <h3>Detailed Reports Coming Soon</h3>
+                <p>Advanced analytics, downloadable PDF reports, and custom date-range filters will be available here.</p>
+            </div>
+        </section>
+
+        <!-- SETTINGS SECTION -->
+        <section class="content-section" id="section-settings">
+            <div class="settings-form">
+                <div class="form-group">
+                    <label for="setName">Venue Name</label>
+                    <input type="text" id="setName" value="Putt & Play Family Fun Center" />
+                </div>
+                <div class="form-group">
+                    <label for="setEmail">Contact Email</label>
+                    <input type="email" id="setEmail" value="admin@puttandplay.com" />
+                </div>
+                <div class="form-group">
+                    <label for="setPhone">Phone Number</label>
+                    <input type="text" id="setPhone" value="+1 (555) 123-4567" />
+                </div>
+                <div class="form-group">
+                    <label for="setCurrency">Currency</label>
+                    <select id="setCurrency">
+                        <option selected>USD ($)</option>
+                        <option>EUR (€)</option>
+                        <option>GBP (£)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="setTimezone">Timezone</label>
+                    <select id="setTimezone">
+                        <option selected>Eastern Time (ET)</option>
+                        <option>Central Time (CT)</option>
+                        <option>Mountain Time (MT)</option>
+                        <option>Pacific Time (PT)</option>
+                    </select>
+                </div>
+                <button class="btn-save">Save Settings</button>
+            </div>
+        </section>
+
+        <!-- SUPPORT SECTION -->
+        <section class="content-section" id="section-support">
+            <div class="placeholder-card">
+                <i class="fas fa-headset"></i>
+                <h3>Need Help?</h3>
+                <p>Contact our support team at <strong>support@puttandplay.com</strong> or call <strong>+1 (555) 987-6543</strong>. We're here to help with any issues or questions.</p>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<script>
+    /* ----- Section Switching ----- */
+    const sectionTitles = {
+        dashboard: { title: 'Dashboard Overview', subtitle: "Welcome back, Admin — here's what's happening today." },
+        bookings: { title: 'Bookings', subtitle: 'Manage all customer bookings and reservations.' },
+        members: { title: 'Members', subtitle: 'View and manage registered members.' },
+        transactions: { title: 'Transactions', subtitle: 'Track all payments and financial records.' },
+        products: { title: 'Products & Passes', subtitle: 'Manage your offerings, prices, and availability.' },
+        events: { title: 'Events', subtitle: 'Create and manage special events and activities.' },
+        reports: { title: 'Reports & Analytics', subtitle: 'Insights and performance metrics for your venue.' },
+        settings: { title: 'Settings', subtitle: 'Configure your venue and account preferences.' },
+        support: { title: 'Support', subtitle: 'Get help from our team whenever you need it.' }
+    };
+
+    const sidebarItems = document.querySelectorAll('.sidebar-item[data-section]');
+    const contentSections = document.querySelectorAll('.content-section');
+    const pageTitle = document.getElementById('pageTitle');
+    const pageSubtitle = document.getElementById('pageSubtitle');
+
+    function switchSection(sectionId) {
+        // Update sidebar active state
+        sidebarItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.section === sectionId) {
+                item.classList.add('active');
+            }
+        });
+
+        // Show the selected content section
+        contentSections.forEach(section => {
+            section.classList.remove('active');
+            if (section.id === 'section-' + sectionId) {
+                section.classList.add('active');
+            }
+        });
+
+        // Update top bar title/subtitle
+        const meta = sectionTitles[sectionId];
+        if (meta) {
+            pageTitle.textContent = meta.title;
+            pageSubtitle.textContent = meta.subtitle;
+        }
+
+        // Close mobile sidebar
+        if (window.innerWidth < 1024) {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('active');
+        }
+    }
+    window.switchSection = switchSection;
+
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', () => switchSection(item.dataset.section));
+    });
+
+    /* ----- Theme Toggle ----- */
+    const htmlEl = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    let theme = localStorage.getItem('theme') || 'light';
+    htmlEl.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+        htmlEl.classList.add('dark');
+        themeIcon.className = 'fas fa-sun';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        htmlEl.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        if (newTheme === 'dark') {
+            htmlEl.classList.add('dark');
+            themeIcon.className = 'fas fa-sun';
+        } else {
+            htmlEl.classList.remove('dark');
+            themeIcon.className = 'fas fa-circle-half-stroke';
+        }
+    });
+
+    /* ----- RTL Toggle ----- */
+    const rtlToggle = document.getElementById('rtlToggle');
+    let dir = localStorage.getItem('direction') || 'ltr';
+    htmlEl.setAttribute('dir', dir);
+
+    rtlToggle.addEventListener('click', () => {
+        const current = htmlEl.getAttribute('dir');
+        const newDir = current === 'rtl' ? 'ltr' : 'rtl';
+        htmlEl.setAttribute('dir', newDir);
+        localStorage.setItem('direction', newDir);
+    });
+
+    /* ----- Mobile Sidebar ----- */
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('active');
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('active');
+        }
+    });
+</script>
+</body>
+</html>

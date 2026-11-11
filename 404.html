@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Page not found – Putt & Play Mini Golf & Family Fun Center." />
+    <title>404 – Page Not Found | Putt & Play</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap" rel="stylesheet" />
+    <style>
+        /* ----- RESET & VARIABLES (Black / White / Orange) ----- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F8F8;
+            --text-main: #111111;
+            --text-heading: #000000;
+            --card-bg: #FFFFFF;
+            --border-light: #E5E5E5;
+            --accent-orange: #FF7626;
+            --accent-dark: #000000;
+            --orange: #FF7626;
+            --black: #000000;
+            --white: #FFFFFF;
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0A0A0A;
+            --bg-secondary: #1A1A1A;
+            --text-main: #EAEAEA;
+            --text-heading: #FAFAFA;
+            --card-bg: #1F1F1F;
+            --border-light: #333333;
+            --accent-orange: #FF8C42;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.4;
+        }
+        a { text-decoration: none; }
+
+        /* ----- 404 PAGE LAYOUT ----- */
+        .error-page {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* Subtle background pattern */
+        .error-page::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22 width=%2260%22 height=%2260%22><circle cx=%2230%22 cy=%2230%22 r=%228%22 fill=%22%23FF7626%22/></svg>');
+            pointer-events: none;
+        }
+
+        /* Logo – top-left */
+        .error-logo {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+        .error-logo:hover { transform: scale(1.04); }
+        .error-logo-icon {
+            width: 2.6rem;
+            height: 2.6rem;
+            background: rgba(255,118,38,0.1);
+            border-radius: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--orange);
+            flex-shrink: 0;
+        }
+        .error-logo-icon i {
+            color: var(--orange);
+            font-size: 1.4rem;
+        }
+        .error-logo-text {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+        .error-logo-text span { color: var(--orange); }
+        .error-logo-tagline {
+            font-size: 0.55rem;
+            color: var(--text-main);
+            opacity: 0.55;
+            display: block;
+            margin-top: 0.1rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* Theme toggle – top-right */
+        .error-theme-toggle {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            z-index: 10;
+            width: 2.6rem;
+            height: 2.6rem;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        }
+        .error-theme-toggle:hover {
+            background: var(--orange);
+            color: white;
+            border-color: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        /* Main error content */
+        .error-content {
+            position: relative;
+            z-index: 2;
+            max-width: 32rem;
+        }
+        .error-code {
+            font-size: 7rem;
+            font-weight: 900;
+            line-height: 1;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.04em;
+            text-shadow: 0 10px 30px rgba(255,118,38,0.2);
+        }
+        @media (min-width: 640px) { .error-code { font-size: 9rem; } }
+        .error-icon {
+            font-size: 2.5rem;
+            color: var(--orange);
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+        .error-content h1 {
+            font-size: 1.6rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-heading);
+        }
+        @media (min-width: 640px) { .error-content h1 { font-size: 2rem; } }
+        .error-content p {
+            font-size: 0.95rem;
+            opacity: 0.7;
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+            max-width: 24rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons */
+        .error-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .btn-home {
+            background: var(--orange);
+            color: white;
+            padding: 0.75rem 1.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid var(--orange);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .btn-home:hover {
+            background: transparent;
+            color: var(--orange);
+        }
+        .btn-back {
+            background: transparent;
+            color: var(--text-main);
+            padding: 0.75rem 1.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid var(--border-light);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .btn-back:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .error-code { font-size: 5.5rem; }
+            .error-content h1 { font-size: 1.35rem; }
+            .error-content p { font-size: 0.85rem; }
+            .error-logo-text { font-size: 1.1rem; }
+            .error-logo-icon { width: 2.2rem; height: 2.2rem; }
+            .error-logo-icon i { font-size: 1.15rem; }
+            .error-theme-toggle { width: 2.3rem; height: 2.3rem; font-size: 0.85rem; }
+            .btn-home, .btn-back { padding: 0.65rem 1.4rem; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="error-page">
+
+    <!-- Logo – top-left, links to index.html -->
+    <a href="index.html" class="error-logo">
+        <div class="error-logo-icon"><i class="fas fa-golf-ball-tee"></i></div>
+        <div>
+            <div class="error-logo-text">Putt<span>&Play</span></div>
+            <span class="error-logo-tagline">family fun center</span>
+        </div>
+    </a>
+
+    <!-- Theme toggle – top-right -->
+    <button class="error-theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-circle-half-stroke" id="themeIcon"></i>
+    </button>
+
+    <!-- Error content -->
+    <div class="error-content">
+        <div class="error-code">404</div>
+        <div class="error-icon"><i class="fas fa-golf-ball-tee"></i></div>
+        <h1>Oops! Lost on the course?</h1>
+        <p>The page you're looking for isn't here. It may have moved, or the URL might be incorrect.</p>
+        <div class="error-actions">
+            <a href="index.html" class="btn-home"><i class="fas fa-home"></i> Back to Home</a>
+            <button class="btn-back" onclick="history.back()"><i class="fas fa-arrow-left"></i> Go Back</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    /* ----- Theme Toggle ----- */
+    const htmlEl = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    let theme = localStorage.getItem('theme') || 'light';
+    htmlEl.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+        htmlEl.classList.add('dark');
+        themeIcon.className = 'fas fa-sun';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        htmlEl.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        if (newTheme === 'dark') {
+            htmlEl.classList.add('dark');
+            themeIcon.className = 'fas fa-sun';
+        } else {
+            htmlEl.classList.remove('dark');
+            themeIcon.className = 'fas fa-circle-half-stroke';
+        }
+    });
+</script>
+</body>
+</html>

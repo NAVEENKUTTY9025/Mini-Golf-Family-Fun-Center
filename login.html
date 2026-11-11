@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Login to Putt & Play – Mini Golf & Family Fun Center." />
+    <title>Login | Putt & Play</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&display=swap" rel="stylesheet" />
+    <style>
+        /* ----- RESET & VARIABLES (Black / White / Orange) ----- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F8F8;
+            --text-main: #111111;
+            --text-heading: #000000;
+            --card-bg: #FFFFFF;
+            --border-light: #E5E5E5;
+            --accent-orange: #FF7626;
+            --accent-dark: #000000;
+            --input-bg: #FFFFFF;
+            --input-border: #E5E5E5;
+            --orange: #FF7626;
+            --black: #000000;
+            --white: #FFFFFF;
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0A0A0A;
+            --bg-secondary: #1A1A1A;
+            --text-main: #EAEAEA;
+            --text-heading: #FAFAFA;
+            --card-bg: #141414;
+            --border-light: #333333;
+            --accent-orange: #FF8C42;
+            --accent-dark: #000000;
+            --input-bg: #1F1F1F;
+            --input-border: #333333;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.4;
+        }
+        h1, h2, h3, h4, h5, h6 { color: var(--text-heading); font-weight: 700; line-height: 1.2; }
+        a { text-decoration: none; }
+
+        /* ----- LOGIN PAGE LAYOUT ----- */
+        .login-page {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem;
+        }
+        /* Subtle background pattern */
+        .login-page::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22 width=%2260%22 height=%2260%22><circle cx=%2230%22 cy=%2230%22 r=%228%22 fill=%22%23FF7626%22/></svg>');
+            pointer-events: none;
+        }
+
+        /* Top-right controls */
+        .top-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        .icon-btn {
+            width: 2.4rem;
+            height: 2.4rem;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        }
+        .icon-btn:hover {
+            background: var(--orange);
+            color: white;
+            border-color: var(--orange);
+            transform: translateY(-2px);
+        }
+        [dir="rtl"] .top-controls {
+            right: auto;
+            left: 1rem;
+        }
+
+        /* Login card */
+        .login-card {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 1.5rem;
+            padding: 1.75rem 1.75rem 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.12);
+            z-index: 2;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* Logo */
+        .login-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            margin-bottom: 1.1rem;
+            transition: transform 0.2s;
+        }
+        .login-logo:hover { transform: scale(1.03); }
+        .login-logo-icon {
+            width: 2.4rem;
+            height: 2.4rem;
+            background: rgba(255,118,38,0.1);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--orange);
+            flex-shrink: 0;
+        }
+        .login-logo-icon i {
+            color: var(--orange);
+            font-size: 1.35rem;
+        }
+        .login-logo-text {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+        .login-logo-text span { color: var(--orange); }
+        .login-logo-tagline {
+            font-size: 0.5rem;
+            color: var(--text-main);
+            opacity: 0.55;
+            display: block;
+            margin-top: 0.1rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* Heading */
+        .login-heading {
+            text-align: center;
+            margin-bottom: 1.1rem;
+        }
+        .login-heading h1 {
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+        }
+        .login-heading p {
+            font-size: 0.8rem;
+            opacity: 0.65;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 0.75rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--text-main);
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border: 1.5px solid var(--input-border);
+            border-radius: 0.75rem;
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.875rem;
+            transition: 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(255,118,38,0.12);
+        }
+        .form-control::placeholder {
+            color: var(--text-main);
+            opacity: 0.4;
+        }
+
+        /* Password wrapper */
+        .password-wrap {
+            position: relative;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-main);
+            opacity: 0.5;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 0.2rem;
+            transition: 0.2s;
+        }
+        .password-toggle:hover { opacity: 1; color: var(--orange); }
+        [dir="rtl"] .password-toggle {
+            right: auto;
+            left: 0.75rem;
+        }
+
+        /* Row: remember + forgot */
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.9rem;
+            font-size: 0.78rem;
+            gap: 0.5rem;
+        }
+        .remember-label {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            cursor: pointer;
+            opacity: 0.85;
+        }
+        .remember-label input {
+            accent-color: var(--orange);
+            width: 0.85rem;
+            height: 0.85rem;
+            cursor: pointer;
+        }
+        .forgot-link {
+            color: var(--orange);
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .forgot-link:hover { text-decoration: underline; }
+
+        /* Login button */
+        .btn-login {
+            width: 100%;
+            background: var(--orange);
+            color: white;
+            padding: 0.7rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            border: 2px solid var(--orange);
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+        .btn-login:hover {
+            background: transparent;
+            color: var(--orange);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 0.9rem 0;
+            color: var(--text-main);
+            opacity: 0.5;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-light);
+        }
+
+        /* Social buttons */
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.9rem;
+        }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            width: 100%;
+            padding: 0.55rem;
+            border-radius: 0.75rem;
+            border: 1.5px solid var(--border-light);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .social-btn:hover {
+            border-color: var(--orange);
+            background: rgba(255,118,38,0.04);
+            transform: translateY(-1px);
+        }
+        .social-btn svg {
+            width: 1.1rem;
+            height: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        /* Signup text */
+        .signup-text {
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.75;
+        }
+        .signup-text a {
+            color: var(--orange);
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .signup-text a:hover { text-decoration: underline; }
+
+        /* Responsive tweaks */
+        @media (max-width: 400px) {
+            .login-card { padding: 1.5rem 1.25rem 1.25rem; border-radius: 1.35rem; max-width: 340px; }
+            .login-heading h1 { font-size: 1.2rem; }
+            .top-controls { top: 0.75rem; right: 0.75rem; gap: 0.4rem; }
+            [dir="rtl"] .top-controls { right: auto; left: 0.75rem; }
+            .icon-btn { width: 2.2rem; height: 2.2rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-page">
+
+    <!-- Top-right toggles: RTL + Dark Mode -->
+    <div class="top-controls">
+        <button class="icon-btn" id="rtlToggle" aria-label="Toggle RTL">
+            <i class="fas fa-right-left"></i>
+        </button>
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+            <i class="fas fa-circle-half-stroke" id="themeIcon"></i>
+        </button>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card">
+
+        <!-- Logo (navigates to index.html) -->
+        <a href="index.html" class="login-logo">
+            <div class="login-logo-icon"><i class="fas fa-golf-ball-tee"></i></div>
+            <div>
+                <div class="login-logo-text">Putt<span>&Play</span></div>
+                <span class="login-logo-tagline">family fun center</span>
+            </div>
+        </a>
+
+        <!-- Heading -->
+        <div class="login-heading">
+            <h1>Welcome back</h1>
+            <p>Login to book your next adventure</p>
+        </div>
+
+        <!-- Form -->
+        <form onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" class="form-control" placeholder="you@example.com" required />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-wrap">
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required style="padding-right: 2.5rem;" />
+                    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Show password">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="remember-label">
+                    <input type="checkbox" />
+                    Remember me
+                </label>
+                <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">or continue with</div>
+
+        <!-- Social buttons with original logos -->
+        <div class="social-buttons">
+
+            <!-- Google -->
+            <button class="social-btn" type="button">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Continue with Google
+            </button>
+
+            <!-- Facebook -->
+            <button class="social-btn" type="button">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+                </svg>
+                Continue with Facebook
+            </button>
+
+            <!-- Apple -->
+            <button class="social-btn" type="button">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" fill="#000000"/>
+                </svg>
+                Continue with Apple
+            </button>
+
+        </div>
+
+        <!-- Signup -->
+        <p class="signup-text">
+            Don't have an account? <a href="register.html">Sign up</a>
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+    /* ----- Theme Toggle ----- */
+    const htmlEl = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    let theme = localStorage.getItem('theme') || 'light';
+    htmlEl.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+        htmlEl.classList.add('dark');
+        themeIcon.className = 'fas fa-sun';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        htmlEl.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        if (newTheme === 'dark') {
+            htmlEl.classList.add('dark');
+            themeIcon.className = 'fas fa-sun';
+        } else {
+            htmlEl.classList.remove('dark');
+            themeIcon.className = 'fas fa-circle-half-stroke';
+        }
+    });
+
+    /* ----- RTL Toggle ----- */
+    const rtlToggle = document.getElementById('rtlToggle');
+    let dir = localStorage.getItem('direction') || 'ltr';
+    htmlEl.setAttribute('dir', dir);
+
+    rtlToggle.addEventListener('click', () => {
+        const current = htmlEl.getAttribute('dir');
+        const newDir = current === 'rtl' ? 'ltr' : 'rtl';
+        htmlEl.setAttribute('dir', newDir);
+        localStorage.setItem('direction', newDir);
+    });
+
+    /* ----- Password Show/Hide ----- */
+    const passwordInput = document.getElementById('password');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    passwordToggle.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.className = 'fas fa-eye-slash';
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.className = 'fas fa-eye';
+        }
+    });
+</script>
+</body>
+</html>
