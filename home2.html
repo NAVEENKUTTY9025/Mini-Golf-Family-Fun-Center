@@ -586,6 +586,9 @@
             padding: 2rem;
             position: relative;
             transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         .quote-card:hover {
             border-color: var(--orange);
@@ -605,11 +608,13 @@
             opacity: 0.85;
             margin-bottom: 1.5rem;
             font-style: italic;
+            flex: 1;
         }
         .quote-author {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            margin-top: auto;
         }
         .quote-avatar {
             width: 2.75rem;

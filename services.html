@@ -363,6 +363,9 @@
             transition: 0.35s ease;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         .pricing-card.featured {
             border-color: var(--orange);
@@ -423,6 +426,7 @@
             list-style: none;
             text-align: left;
             margin-bottom: 1.75rem;
+            flex: 1;
         }
         .pricing-card .pricing-features li {
             display: flex;
@@ -445,6 +449,7 @@
             font-size: 0.95rem;
             transition: 0.2s;
             border: 2px solid var(--orange);
+            margin-top: auto;
         }
         .btn-pricing:hover {
             background: transparent;
