@@ -167,107 +167,155 @@
 
         /* ----- HOME 2 SPECIFIC SECTIONS ----- */
 
-        /* Section 1: Split Hero */
-        .split-hero {
-            min-height: 100vh;
+        /* Section 1: Hero (Left Image / Right Content) */
+        .hero {
             display: flex;
-            align-items: stretch;
-            padding-top: 80px;
+            align-items: center;
             position: relative;
             overflow: hidden;
+            padding-top: 130px;
+            padding-bottom: 4rem;
+            background-color: var(--bg-primary);
         }
-        .split-hero .hero-left {
-            width: 100%;
-            display: flex;
+        .hero-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22 width=%2240%22 height=%2240%22><path fill=%22%23FF7626%22 d=%22M0 0 L40 40 M40 0 L0 40%22 stroke-width=%221%22 stroke=%22%23111111%22 opacity=%220.3%22 /></svg>');
+        }
+        .hero-grid {
+            display: grid;
+            gap: 3rem;
             align-items: center;
-            padding: 3rem 1rem;
-            background: var(--bg-primary);
-            position: relative;
-            z-index: 2;
-        }
-        .split-hero .hero-right {
-            width: 100%;
-            min-height: 400px;
-            position: relative;
-            display: none;
         }
         @media (min-width: 1024px) {
-            .split-hero .hero-left { width: 50%; padding: 4rem 3rem 4rem 4rem; }
-            .split-hero .hero-right { display: block; width: 50%; }
+            .hero-grid { grid-template-columns: 1fr 1fr; }
         }
-        .hero-right-img {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
+        .hero-image {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            border: 4px solid rgba(255,118,38,0.3);
+            min-height: 380px;
+            height: 440px;
+            width: 100%;
+            background-color: #1a1a1a;
         }
-        .hero-right-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0,0.4));
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease;
         }
-        .hero-right-badge {
+        .hero-image:hover img {
+            transform: scale(1.04);
+        }
+        .hero-image-badge {
             position: absolute;
-            bottom: 3rem;
-            left: 3rem;
+            bottom: 1.5rem;
+            left: 1.5rem;
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
-            padding: 1.5rem 2rem;
+            border-radius: 1.25rem;
+            padding: 0.875rem 1.5rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            gap: 0.875rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
             z-index: 3;
+            border: 1px solid rgba(255,118,38,0.2);
         }
-        .hero-right-badge i {
-            font-size: 2rem;
-            color: var(--orange);
+        [data-theme="dark"] .hero-image-badge {
+            background: rgba(26,26,26,0.92);
+            border-color: #333;
         }
-        .hero-right-badge div strong {
-            display: block;
-            font-size: 1.25rem;
-            color: var(--black);
-        }
-        .hero-right-badge div span {
-            font-size: 0.875rem;
-            color: #666;
+        .hero-image-badge i { font-size: 1.75rem; color: var(--orange); }
+        .hero-image-badge strong { display: block; font-size: 1.1rem; color: var(--text-heading); font-weight: 700; }
+        .hero-image-badge span { font-size: 0.8rem; color: var(--text-main); opacity: 0.75; }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
         }
         .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255,118,38,0.1);
             color: var(--orange);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
         }
-        .split-hero h1 {
-            font-size: 2.75rem;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            color: var(--text-heading);
         }
-        @media (min-width: 640px) { .split-hero h1 { font-size: 3.5rem; } }
-        @media (min-width: 1280px) { .split-hero h1 { font-size: 4rem; } }
-        .split-hero h1 span { color: var(--orange); }
-        .split-hero p {
+        @media (min-width: 640px) { .hero-title { font-size: 3rem; } }
+        @media (min-width: 1024px) { .hero-title { font-size: 3.75rem; } }
+        .hero-title span { color: var(--orange); }
+        .hero-text {
             font-size: 1.125rem;
-            opacity: 0.8;
-            max-width: 32rem;
+            color: var(--text-main);
+            opacity: 0.85;
             margin-bottom: 2rem;
             line-height: 1.7;
+            max-width: 36rem;
         }
-        .split-hero .btn-group {
+        .btn-group {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 2.5rem;
+            align-items: center;
         }
+        .btn-outline {
+            border: 2px solid var(--orange);
+            color: var(--text-main);
+            padding: 0.875rem 1.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background-color: var(--orange);
+            color: white;
+        }
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+        .hero-stat-item strong {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+            display: block;
+        }
+        .hero-stat-item span {
+            font-size: 0.875rem;
+            color: var(--text-main);
+            opacity: 0.75;
+            margin-top: 0.25rem;
+            display: block;
+        }
+        .order-1 { order: 1; }
+        .order-2 { order: 2; }
         .btn-primary {
             background: var(--orange);
             color: white;
@@ -839,41 +887,45 @@
     </div>
 </div>
 
-<!-- SECTION 1: SPLIT HERO -->
-<section class="split-hero">
-    <div class="hero-left fade-in-up">
-        <div>
-            <div class="hero-eyebrow"><i class="fas fa-star"></i> Rated #1 Family Fun Center</div>
-            <h1>More Than Just <span>Mini Golf</span></h1>
-            <p>A full day of adventure awaits — 18 themed holes, a retro arcade, family dining, and unforgettable celebrations. All under one roof.</p>
-            <div class="btn-group">
-                <a href="product.html" class="btn-primary"><i class="fas fa-ticket"></i>Book Your Pass</a>
-                <a href="services.html" class="btn-ghost"><i class="fas fa-compass"></i>Explore Services</a>
-            </div>
-            <div class="split-hero-stats">
-                <div class="split-stat">
-                    <strong>18</strong>
-                    <span>Themed Holes</span>
-                </div>
-                <div class="split-stat">
-                    <strong>50+</strong>
-                    <span>Arcade Games</span>
-                </div>
-                <div class="split-stat">
-                    <strong>4.9★</strong>
-                    <span>Guest Rating</span>
+<!-- SECTION 1: HERO (Left Image / Right Content) -->
+<section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="container relative z-10">
+        <div class="hero-grid">
+            <!-- Left Side: Image -->
+            <div class="hero-image order-1">
+                <img src="https://images.unsplash.com/photo-1571256665850-8551ca6cb4ad?q=85&w=2000&auto=format&fit=crop" alt="Putt & Play 18-Hole Course" />
+                <div class="hero-image-badge">
+                    <i class="fas fa-golf-ball-tee"></i>
+                    <div>
+                        <strong>Open Today</strong>
+                        <span>10am – 9pm</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="hero-right">
-        <div class="hero-right-img" style="background-image: url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2000&auto=format&fit=crop');"></div>
-        <div class="hero-right-overlay"></div>
-        <div class="hero-right-badge">
-            <i class="fas fa-golf-ball-tee"></i>
-            <div>
-                <strong>Open Today</strong>
-                <span>10am – 9pm</span>
+            <!-- Right Side: Content -->
+            <div class="hero-content fade-in-up order-2">
+                <span class="hero-eyebrow"><i class="fas fa-star"></i> Rated #1 Family Fun Center</span>
+                <h1 class="hero-title">More Than Just <span>Mini Golf</span></h1>
+                <p class="hero-text">A full day of adventure awaits — 18 themed holes, a retro arcade, family dining, and unforgettable celebrations. All under one roof.</p>
+                <div class="btn-group">
+                    <a href="product.html" class="btn-primary"><i class="fas fa-ticket"></i>Book Your Pass</a>
+                    <a href="services.html" class="btn-outline"><i class="fas fa-compass"></i>Explore Services</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <strong>18</strong>
+                        <span>Themed holes</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <strong>50+</strong>
+                        <span>Arcade games</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <strong>4.9★</strong>
+                        <span>Guest rating</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -891,7 +943,7 @@
 
             <!-- Large Card: Mini Golf -->
             <div class="bento-card large image-card" style="grid-column: span 2;">
-                <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=1200&auto=format&fit=crop');"></div>
+                <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1693163595999-4c1c54033c86?q=80&w=1200&auto=format&fit=crop');"></div>
                 <div class="bento-content">
                     <div class="bento-icon"><i class="fas fa-golf-ball-tee"></i></div>
                     <h3>18-Hole Adventure Golf</h3>
@@ -901,7 +953,7 @@
 
             <!-- Card: Arcade -->
             <div class="bento-card image-card">
-                <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop');"></div>
+                <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1558324190-c940eb141401?q=80&w=800&auto=format&fit=crop');"></div>
                 <div class="bento-content">
                     <div class="bento-icon"><i class="fas fa-gamepad"></i></div>
                     <h3>Retro Arcade</h3>
@@ -911,7 +963,7 @@
 
             <!-- Card: Dining -->
             <div class="bento-card image-card">
-                <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop');"></div>
+                <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop');"></div>
                 <div class="bento-content">
                     <div class="bento-icon"><i class="fas fa-utensils"></i></div>
                     <h3>Family Dining</h3>
@@ -1013,11 +1065,11 @@
         </div>
         <div class="gallery-strip">
             <div class="gallery-item">
-                <div class="g-img" style="background-image: url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800&auto=format&fit=crop');"></div>
+                <div class="g-img" style="background-image: url('https://images.unsplash.com/photo-1722849899776-3c6abb5a46c7?q=80&w=800&auto=format&fit=crop');"></div>
                 <div class="g-overlay">Adventure Golf</div>
             </div>
             <div class="gallery-item">
-                <div class="g-img" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop');"></div>
+                <div class="g-img" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop');"></div>
                 <div class="g-overlay">Arcade Fun</div>
             </div>
             <div class="gallery-item">
@@ -1025,7 +1077,7 @@
                 <div class="g-overlay">Birthday Parties</div>
             </div>
             <div class="gallery-item">
-                <div class="g-img" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop');"></div>
+                <div class="g-img" style="background-image: url('https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800&auto=format&fit=crop');"></div>
                 <div class="g-overlay">Family Dining</div>
             </div>
         </div>
@@ -1049,7 +1101,7 @@
                 <div class="quote-mark">"</div>
                 <p>We came for mini golf and stayed for hours. The arcade kept the kids busy while we enjoyed the restaurant. A perfect family day out!</p>
                 <div class="quote-author">
-                    <div class="quote-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                    <div class="quote-avatar" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=85&w=300&auto=format&fit=crop&crop=faces');"></div>
                     <div>
                         <h4>Sarah M.</h4>
                         <span>Family visit</span>
@@ -1064,7 +1116,7 @@
                 <div class="quote-mark">"</div>
                 <p>My daughter's birthday party was flawless. The private room, the golf, the food — everything was handled so well. We'll be back for sure.</p>
                 <div class="quote-author">
-                    <div class="quote-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                    <div class="quote-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=85&w=300&auto=format&fit=crop&crop=faces');"></div>
                     <div>
                         <h4>James T.</h4>
                         <span>Birthday party host</span>
@@ -1079,7 +1131,7 @@
                 <div class="quote-mark">"</div>
                 <p>Best mini golf course in town. The holes are creative and challenging, and the staff are friendly. Highly recommend for a fun weekend.</p>
                 <div class="quote-author">
-                    <div class="quote-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/68.jpg');"></div>
+                    <div class="quote-avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=85&w=300&auto=format&fit=crop&crop=faces');"></div>
                     <div>
                         <h4>Emily R.</h4>
                         <span>Weekend visit</span>

@@ -166,25 +166,152 @@
         .mobile-separator { margin: 1rem 0 0.5rem 0; border-top: 2px solid #2f2f2f; }
 
         /* ----- FAQ PAGE SECTIONS ----- */
-        .page-hero {
-            padding-top: 140px;
-            padding-bottom: 80px;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            text-align: center;
+        /* ----- HERO SECTION (Left Image / Right Content) ----- */
+        .hero {
+            display: flex;
+            align-items: center;
             position: relative;
             overflow: hidden;
+            padding-top: 130px;
+            padding-bottom: 4rem;
+            background-color: var(--bg-primary);
         }
-        .page-hero::before {
-            content: '';
+        .hero-pattern {
             position: absolute;
             inset: 0;
-            opacity: 0.03;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22 width=%2260%22 height=%2260%22><circle cx=%2230%22 cy=%2230%22 r=%2210%22 fill=%22%23FF7626%22/></svg>');
+            opacity: 0.05;
             pointer-events: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22 width=%2240%22 height=%2240%22><path fill=%22%23FF7626%22 d=%22M0 0 L40 40 M40 0 L0 40%22 stroke-width=%221%22 stroke=%22%23111111%22 opacity=%220.3%22 /></svg>');
         }
-        .page-hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-        .page-hero h1 span { color: var(--orange); }
-        .page-hero p { font-size: 1.25rem; max-width: 40rem; margin: 0 auto; opacity: 0.8; }
+        .hero-grid {
+            display: grid;
+            gap: 3rem;
+            align-items: center;
+        }
+        @media (min-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .hero-image {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            border: 4px solid rgba(255,118,38,0.3);
+            min-height: 380px;
+            height: 440px;
+            width: 100%;
+            background-color: #1a1a1a;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .hero-image:hover img {
+            transform: scale(1.04);
+        }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-eyebrow {
+            color: var(--orange);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            color: var(--text-heading);
+        }
+        @media (min-width: 640px) { .hero-title { font-size: 3rem; } }
+        @media (min-width: 1024px) { .hero-title { font-size: 3.75rem; } }
+        .hero-title span { color: var(--orange); }
+        .hero-text {
+            font-size: 1.125rem;
+            color: var(--text-main);
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            max-width: 36rem;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+        .btn-primary {
+            background-color: var(--orange);
+            color: white;
+            padding: 0.875rem 1.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            box-shadow: 0 15px 25px -5px rgba(255,118,38,0.3);
+            border: 2px solid var(--orange);
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: white;
+            color: var(--black);
+            border-color: var(--orange);
+        }
+        .btn-outline {
+            border: 2px solid var(--orange);
+            color: var(--text-main);
+            padding: 0.875rem 1.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background-color: var(--orange);
+            color: white;
+        }
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+        .hero-stat-item strong {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+            display: block;
+        }
+        .hero-stat-item span {
+            font-size: 0.875rem;
+            color: var(--text-main);
+            opacity: 0.75;
+            margin-top: 0.25rem;
+            display: block;
+        }
+        .order-1 { order: 1; }
+        .order-2 { order: 2; }
 
         .faq-section {
             padding: 5rem 0;
@@ -489,16 +616,45 @@
     </div>
 </div>
 
-<!-- SECTION 1: PAGE HERO -->
-<section class="page-hero">
-    <div class="container">
-        <h1>Frequently Asked <span>Questions</span></h1>
-        <p>Everything you need to know before your visit to Putt & Play.</p>
+<!-- SECTION 1: HERO SECTION (Left Image / Right Content) -->
+<section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="container relative z-10">
+        <div class="hero-grid">
+            <!-- Left Side: Image -->
+            <div class="hero-image order-1">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=85&w=2000&auto=format&fit=crop" alt="Putt & Play Visitor Information & FAQs" />
+            </div>
+            <!-- Right Side: Content -->
+            <div class="hero-content fade-in-up order-2">
+                <span class="hero-eyebrow">⛳ Fast Answers & Help</span>
+                <h1 class="hero-title">Frequently Asked <span>Questions</span></h1>
+                <p class="hero-text">Everything you need to know about our mini golf courses, arcade game cards, birthday packages, parking, group bookings, and accessibility.</p>
+                <div class="btn-group">
+                    <a href="#faqList" class="btn-primary"><i class="fas fa-question-circle"></i>Browse FAQs</a>
+                    <a href="contact.html" class="btn-outline"><i class="fas fa-envelope"></i>Contact Support</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <strong>Walk-ins</strong>
+                        <span>Always welcome</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <strong>Free</strong>
+                        <span>On-site parking</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <strong>All Ages</strong>
+                        <span>Family friendly</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- SECTION 2: FAQ LIST -->
-<section class="faq-section">
+<section id="faqList" class="faq-section">
     <div class="container">
         <div class="faq-container">
 

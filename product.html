@@ -166,25 +166,152 @@
         .mobile-separator { margin: 1rem 0 0.5rem 0; border-top: 2px solid #2f2f2f; }
 
         /* ----- PRODUCT PAGE SECTIONS ----- */
-        .page-hero {
-            padding-top: 140px;
-            padding-bottom: 80px;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            text-align: center;
+        /* ----- HERO SECTION (Left Image / Right Content) ----- */
+        .hero {
+            display: flex;
+            align-items: center;
             position: relative;
             overflow: hidden;
+            padding-top: 130px;
+            padding-bottom: 4rem;
+            background-color: var(--bg-primary);
         }
-        .page-hero::before {
-            content: '';
+        .hero-pattern {
             position: absolute;
             inset: 0;
-            opacity: 0.03;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22 width=%2260%22 height=%2260%22><circle cx=%2230%22 cy=%2230%22 r=%2210%22 fill=%22%23FF7626%22/></svg>');
+            opacity: 0.05;
             pointer-events: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22 width=%2240%22 height=%2240%22><path fill=%22%23FF7626%22 d=%22M0 0 L40 40 M40 0 L0 40%22 stroke-width=%221%22 stroke=%22%23111111%22 opacity=%220.3%22 /></svg>');
         }
-        .page-hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-        .page-hero h1 span { color: var(--orange); }
-        .page-hero p { font-size: 1.25rem; max-width: 40rem; margin: 0 auto; opacity: 0.8; }
+        .hero-grid {
+            display: grid;
+            gap: 3rem;
+            align-items: center;
+        }
+        @media (min-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .hero-image {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            border: 4px solid rgba(255,118,38,0.3);
+            min-height: 380px;
+            height: 440px;
+            width: 100%;
+            background-color: #1a1a1a;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .hero-image:hover img {
+            transform: scale(1.04);
+        }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-eyebrow {
+            color: var(--orange);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            color: var(--text-heading);
+        }
+        @media (min-width: 640px) { .hero-title { font-size: 3rem; } }
+        @media (min-width: 1024px) { .hero-title { font-size: 3.75rem; } }
+        .hero-title span { color: var(--orange); }
+        .hero-text {
+            font-size: 1.125rem;
+            color: var(--text-main);
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            max-width: 36rem;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+        .btn-primary {
+            background-color: var(--orange);
+            color: white;
+            padding: 0.875rem 1.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            box-shadow: 0 15px 25px -5px rgba(255,118,38,0.3);
+            border: 2px solid var(--orange);
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background-color: white;
+            color: var(--black);
+            border-color: var(--orange);
+        }
+        .btn-outline {
+            border: 2px solid var(--orange);
+            color: var(--text-main);
+            padding: 0.875rem 1.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            background: transparent;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background-color: var(--orange);
+            color: white;
+        }
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+        .hero-stat-item strong {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+            display: block;
+        }
+        .hero-stat-item span {
+            font-size: 0.875rem;
+            color: var(--text-main);
+            opacity: 0.75;
+            margin-top: 0.25rem;
+            display: block;
+        }
+        .order-1 { order: 1; }
+        .order-2 { order: 2; }
 
         /* Product Grid */
         .products-section {
@@ -329,7 +456,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-image: url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2070&auto=format&fit=crop');
+            background-image: url('https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=2070&auto=format&fit=crop');
             width: 100%;
             border: 3px solid var(--orange);
         }
@@ -745,16 +872,45 @@
     </div>
 </div>
 
-<!-- SECTION 1: PAGE HERO -->
-<section class="page-hero">
-    <div class="container">
-        <h1>Our <span>Passes & Products</span></h1>
-        <p>Book your mini golf, arcade credits, party packages, and more — all in one place.</p>
+<!-- SECTION 1: HERO SECTION (Left Image / Right Content) -->
+<section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="container relative z-10">
+        <div class="hero-grid">
+            <!-- Left Side: Image -->
+            <div class="hero-image order-1">
+                <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?q=85&w=2000&auto=format&fit=crop" alt="Putt & Play Passes and Admission" />
+            </div>
+            <!-- Right Side: Content -->
+            <div class="hero-content fade-in-up order-2">
+                <span class="hero-eyebrow">⛳ Passes & Attractions</span>
+                <h1 class="hero-title">Our <span>Passes & Products</span></h1>
+                <p class="hero-text">Book your single round passes, family fun bundles, arcade play cards, and birthday party packages — all in one place with instant digital confirmation.</p>
+                <div class="btn-group">
+                    <a href="#productsGrid" class="btn-primary"><i class="fas fa-cart-shopping"></i>Shop Passes</a>
+                    <a href="pricing.html" class="btn-outline"><i class="fas fa-tags"></i>View Pricing Plans</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <strong>$12</strong>
+                        <span>Starting pass</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <strong>$39</strong>
+                        <span>Family bundle</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <strong>Instant</strong>
+                        <span>Pass delivery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- SECTION 2: PRODUCTS GRID -->
-<section class="products-section">
+<section id="productsGrid" class="products-section">
     <div class="container">
         <div style="text-align:center; max-width: 48rem; margin: 0 auto 3.5rem;">
             <span style="color: var(--orange); font-weight: 700; font-size: 0.875rem; letter-spacing: 0.05em; text-transform: uppercase;">Shop the Fun</span>
@@ -781,7 +937,7 @@
 
             <!-- Product 2: Family Bundle -->
             <div class="product-card fade-in-up">
-                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop');">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1609234656388-0ff363383899?q=80&w=1200&auto=format&fit=crop');">
                     <span class="product-badge">Family Favorite</span>
                 </div>
                 <div class="product-content">
@@ -797,7 +953,7 @@
 
             <!-- Product 3: Arcade Card -->
             <div class="product-card fade-in-up">
-                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop');">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1558324190-c940eb141401?q=80&w=1200&auto=format&fit=crop');">
                 </div>
                 <div class="product-content">
                     <div class="product-category">Arcade</div>
@@ -812,7 +968,7 @@
 
             <!-- Product 4: Birthday Party Package -->
             <div class="product-card fade-in-up">
-                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1200&auto=format&fit=crop');">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1200&auto=format&fit=crop');">
                     <span class="product-badge">Party Time</span>
                 </div>
                 <div class="product-content">
@@ -828,7 +984,7 @@
 
             <!-- Product 5: Golf Lesson -->
             <div class="product-card fade-in-up">
-                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=1200&auto=format&fit=crop');">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1598653719763-58a3f3b8ca8e?q=80&w=1200&auto=format&fit=crop');">
                 </div>
                 <div class="product-content">
                     <div class="product-category">Lessons</div>
